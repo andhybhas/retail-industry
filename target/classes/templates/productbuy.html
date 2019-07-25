@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico"/>
+
+    <title>COCA COLA AMATIL</title>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" th:text="${username}">Project name</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/retailindustry">Home</a></li>
+                    <li><a href="/retailindustry/productpage/product">Product</a></li>
+                    <li><a href="/retailindustry/transactionpage/transaction">Transactions</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/retailindustry/userpage/user">Users</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <!--<img th:src="@{/images/home/home1.jpg}" class="d-block w-100">-->
+    <div class="jumbotron" >
+        <!--Slide Product Dan User-->
+        <div class="container my-5">
+            <div class = "justify-content-start my-2 mb-2">
+                <h2 class="p-3 mb-2 text-center">Buy Product</h2>
+            </div>
+            <form th:action="@{/transactionpage/buyProduct}" th:object="${transactionReqDTO}" method="post">
+                <div class="container my-5">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Product</label>
+                            <select  class="form-control" name="productId" required>
+                                <div th:each="product : ${allproduct}">
+                                    <option th:value="${product.productId}" th:text="${product.productName}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Account</label>
+                            <select class="form-control" name="userId" required>
+                                <div th:each="user : ${alluser}">
+                                    <option th:value="${user.userId}" th:text="${user.userName}"></option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Quantity</label>
+                            <select class="form-control" name="transactionQty" required>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="container my-5">
+                    <button class="btn btn-primary" type="submit" data-toggle="modal" th:data-target="'#confirmBuyProduct'" href="">
+                        Buy
+                    </button>
+
+                    <div class="modal fade" th:id="'confirmBuyProduct'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirmation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure want to buy this item?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                                    <a th:href="@{transactionPage}">
+                                        <button type="submit" class="btn btn-outline-success">Buy</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="alert alert-danger pt-0 pb-0 mt-1 mb-1" th:if="${error != null}"><p class="text-danger font-weight-light mb-0" th:inline="text"><i class="fa fa-bullhorn"></i> [[${error}]]</p></div>
+            </form>
+        </div>
+        <!--        End Slide Product dan User-->
+    </div>
+</div> <!-- /container -->
+
+<!--    Bootstrap core JavaScript-->
+<!--     ==================================================-->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+</body>
+</html>

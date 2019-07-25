@@ -1,0 +1,30 @@
+#This is compose to up local environtment
+#To run required docker-compose
+# docker-compose up -d
+#After run above syntax run below
+# docker network connect bridge jboss && docker network connect bridge phalcon
+
+version: "2"
+
+services:
+  retail-industry:
+    build: ../da-andhy-test
+    image: retail-industry:latest
+    container_name: retail-industry
+    ports:
+      - "80:8080"
+#    links:
+#      -
+#    depends_on:
+#      -
+#    volumes:
+#      -
+    networks:
+      - private
+
+networks:
+  bridge:
+    external:
+      name: bridge
+  private:
+    external: false

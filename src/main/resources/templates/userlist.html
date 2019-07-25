@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico"/>
+
+    <title>COCA COLA AMATIL</title>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" th:text="${username}">Project name</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/retailindustry">Home</a></li>
+                    <li><a href="/retailindustry/productpage/product">Product</a></li>
+                    <li><a href="/retailindustry/transactionpage/transaction">Transactions</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/retailindustry/userpage/user">Users</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <!--      <img th:src="@{/images/home/home1.jpg}" class="d-block w-100">-->
+    <div class="jumbotron" >
+
+        <!--        Body Halaman-->
+        <div layout:fragment="content" th:remove="tag">
+            <div class="container mt-3">
+                <h2 class="text mb-3">List User</h2>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">User Name</th>
+                        <th scope="col">User Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${alluser}">
+                        <th th:text="${user.userName}" scope="row"></th>
+                        <td th:inline="text">Rp. [[${#numbers.formatDecimal(user.userBalance, 0, 'POINT', 2, 'COMMA')}]]</td>
+                        <td>
+                            <a th:href="@{|updateuser/${user.userId}|}" class="btn btn-warning">Update User</a>
+
+                            <button class="btn btn-danger" href="">
+                                <a th:onclick="'confirmDeleteUser(' + ${user.userId} + ');'" >Delete User</a>
+                                <a th:href="@{|deleteUser/${user.userId}|}" th:id="'deleteUserId' + ${user.userId}" ></a>
+                            </button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--        End Body Halaman-->
+    </div>
+</div> <!-- /container -->
+
+<!--    Bootstrap core JavaScript-->
+<!--     ==================================================-->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../static/js/bootstrap.js" th:href="@{/js/bootstrap.js}"></script>
+<script>
+    function confirmDeleteUser(id){
+        console.log("====>" + id);
+        if (confirm("Are you sure you want to delete this user?")) {
+            window.location=document.getElementById('deleteUserId'+ id).href;
+            console.log(">>>" + id);
+        }
+    }
+</script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+</body>
+</html>
